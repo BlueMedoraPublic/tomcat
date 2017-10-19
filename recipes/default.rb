@@ -17,8 +17,27 @@
 # limitations under the License.
 #
 
-tomcat_install 'helloworld' do
-  version '8.0.36'
-  verify_checksum false
-  tarball_path '/tmp/apache-tomcat-8.0.36.tar.gz'
+user node[:tomcat][:tomcat_user] do
+  shell node[:tomcat][:tomcat_user_shell]
+  action :create
+end
+
+group node[:tomcat][:tomcat_group] do
+  members node[:tomcat][:tomcat_user]
+  action :create
+end
+
+tomcat_install node[:tomcat][:instance_name] do
+  version node[:tomcat][:version]
+  verify_checksum node[:tomcat][:verify_checksum]
+  tarball_path node[:tomcat][:tarball_path]
+  tomcat_user node[:tomcat][:tomcat_user]
+  tomcat_group node[:tomcat][:tomcat_group]
+end
+
+tomcat_service node[:tomcat][:instance_name] do
+  action [:start, :enable]
+  tomcat_user node[:tomcat][:tomcat_user]
+  tomcat_group node[:tomcat][:tomcat_group]
+  env_vars node[:tomcat][:env_vars]
 end
