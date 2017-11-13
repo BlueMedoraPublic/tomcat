@@ -31,6 +31,7 @@ tomcat_install node[:tomcat][:instance_name] do
   version node[:tomcat][:version]
   verify_checksum node[:tomcat][:verify_checksum]
   tarball_path node[:tomcat][:tarball_path]
+  install_path node[:tomcat][:install_path]
   tomcat_user node[:tomcat][:tomcat_user]
   tomcat_group node[:tomcat][:tomcat_group]
 end
